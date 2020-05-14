@@ -6,17 +6,17 @@
   roles:
     - common
 
-#-
-#  name: Configure master kubernetes nodes
-#  hosts: masters
-#  roles:
-#    - master
+-
+  name: Configure workers kubernetes nodes
+  hosts: workers
+  roles:
+    - worker
 
-#-
-#  name: Configure workers kubernetes nodes
-#  hosts: workers
-#  roles:
-#    - worker
+-
+  name: Configure master kubernetes nodes
+  hosts: masters
+  roles:
+    - master
 
 #- 
 #  name: Create and configure kubernetes operator

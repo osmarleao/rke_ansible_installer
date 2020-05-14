@@ -1,23 +1,26 @@
 ---
-# tasks file for olcne
+# tasks file for RKE worker
 
-# Apply firewall rules for Master(s)
+# Apply firewall rules for Workers
 -
-  name: Applying firewall rules
+  name: Set firewall rules
   firewalld:
     port: '{{ item }}'
     permanent: True
     state: enabled
   loop:
-    - 8090/tcp
-    - 10250/tcp
-    - 10255/tcp
-    - 8472/udp
-    - 6443/tcp
-    - 10251/tcp
-    - 10252/tcp
+    - 80/tcp
+    - 443/tcp
+    - 2376/tcp
     - 2379/tcp
     - 2380/tcp
+    - 6443/tcp
+    - 8472/udp
+    - 9099/tcp
+    - 10250/tcp
+    - 10254/tcp
+    - 30000-32767/udp
+    - 30000-32767/tcp
 
 # Reload firewall rules
 -
