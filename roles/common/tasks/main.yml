@@ -56,9 +56,9 @@
     cmd: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
 -
   name: Installing docker-ce
-  dnf:
-    name: docker-ce
-    state: present
+  command:
+    cmd: dnf -y --nobest install docker-ce
+    warn: false
 -
   name: Start docker Service
   service:
@@ -88,43 +88,6 @@
     replace: '#\1\2\3swap\4'
 
 # Loading kernel modules for RKE
--
-  name: Load kernel modules
-  modprobe:
-    name: '{{ item }}'
-    state: present
-  loop:
-    - br_netfilter
-    - ip6_udp_tunnel
-    - ip_set
-    - ip_set_hash_ip
-    - ip_set_hash_net
-    - iptable_filter
-    - iptable_nat
-    - iptable_mangle
-    - iptable_raw
-    - nf_conntrack_netlink
-    - nf_conntrack
-    - nf_conntrack_ipv4
-    - nf_defrag_ipv4
-    - nf_nat
-    - nf_nat_ipv4
-    - nf_nat_masquerade_ipv4
-    - nfnetlink
-    - udp_tunnel
-    - veth
-    - vxlan
-    - x_tables
-    - xt_addrtype
-    - xt_conntrack
-    - xt_comment
-    - xt_mark
-    - xt_multiport
-    - xt_nat
-    - xt_recent
-    - xt_set
-    - xt_statistic
-    - xt_tcpudp
 -
   name: Add kernel modules as permanent
   blockinfile:
