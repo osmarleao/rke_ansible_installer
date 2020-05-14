@@ -46,10 +46,13 @@
 
 # Configure DNF repositories and installing docker
 -
-  name: Installing yum-utils
+  name: Installing utils
   dnf:
-    name: yum-utils
+    name: '{{ item }}'
     state: present
+  loop:
+    - yum-utils
+    - wget
 -
   name: Adding repository
   command:
