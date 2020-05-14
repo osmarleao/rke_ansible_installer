@@ -74,6 +74,7 @@
     comment: RKE Operator
     shell: /bin/bash
     group: docker
+    password: '{{ rke_enc_pass }}'
 
 # Configure swap for Kubernetes
 -

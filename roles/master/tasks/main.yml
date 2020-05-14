@@ -56,4 +56,54 @@
     name: kubectl
     state: present
 
+# Creating keys to RKE avi_cluster
+- 
+  name: Creating .ssh directory
+  file:
+    path: /home/rke/.ssh/
+    owner: rke
+    group: docker
+    state: directory
+    mode: 0700
+-
+  name: Generating ssh key pair
+  openssh_keypair:
+    path: /home/rke/.ssh/id_rsa
+-
+  name: Adjusting ssh config
+  blockinfile:
+    path: /home/rke/.ssh/config
+    block: |
+      Host *
+          StrictHostKeyChecking no
+    create: yes
+    mode: 0600
+- 
+  name: Adjusting ownership of files
+  file:
+    path: '{{ item }}'
+    owner: rke
+    group: docker
+    mode: 0600
+  loop:
+    - /home/rke/.ssh/config
+    - /home/rke/.ssh/id_rsa
+    - /home/rke/.ssh/id_rsa.pub
+-
+  name: Install EPEL repository to deploy sshpass
+  yum:
+    name: epel-release
+    state: present
+-
+  name: Install sshpass command
+  yum:
+    name: sshpass
+    state: present
+-
+  name: Copy public key to the nodes
+  command:
+    cmd: sshpass -p "{{ rke_password }}" ssh-copy-id -i "/home/rke/.ssh/id_rsa" rke@"{{ item }}" -f
+  become: yes
+  become_user: rke
+  loop: "{{ groups['all'] }}"
 ...

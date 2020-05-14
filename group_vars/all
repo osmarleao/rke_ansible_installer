@@ -5,3 +5,8 @@ use_proxy: False
 # Proxy URL and Rules
 proxy_host: "http://proxy.in.leao.pro.br:80"
 no_proxy: ".in.leao.pro.br,10.0.0.0/8,172.16.0.0/12,192.168.0.0/16"
+
+# RKE configs
+rke_password: "Temp$123"
+# See https://docs.ansible.com/ansible/faq.html#how-do-i-generate-encrypted-passwords-for-the-user-module 
+rke_enc_pass: "$6$CYNBs.8.hY.uluVa$EYUMg0I6nWTW39j.mO3Lg/yc7PMgbKW0akfUuS17v3ibCfJX9dNQBL0KlCfXhQEa8.PUMX.2fcDgj4rftAgYI1"
