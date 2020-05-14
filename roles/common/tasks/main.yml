@@ -9,7 +9,7 @@
 
 # Configure Proxy for environment
 -
-  name: Configure Proxy for YUM
+  name: Configure Proxy for DNF
   lineinfile:
     path: /etc/yum.conf
     line: "proxy={{ proxy_host }}"
