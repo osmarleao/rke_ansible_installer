@@ -1,84 +1,57 @@
 ---
-# This playbook installs OLCNE 1.1
+# This playbook installs RKE 2.x
 -
   name: Apply common configuration to all nodes
   hosts: all
   roles:
     - common
 
--
-  name: Apply common configuration to kubernetes nodes
-  hosts: kubernetes
-  roles:
-    - k8s_node
+#-
+#  name: Configure master kubernetes nodes
+#  hosts: masters
+#  roles:
+#    - master
 
--
-  name: Configure master kubernetes nodes
-  hosts: masters
-  roles:
-    - master
+#-
+#  name: Configure workers kubernetes nodes
+#  hosts: workers
+#  roles:
+#    - worker
 
--
-  name: Configure workers kubernetes nodes
-  hosts: workers
-  roles:
-    - worker
-
--
-  name: Configure and deploy API Server
-  hosts: api_servers
-  roles:
-    - api-server
-
--
-  name: Configure and start OLCNE agent on Kubernetes nodes
-  hosts: kubernetes
-  tasks:
-    -
-      name: Start API agent
-      command:
-        cmd: /etc/olcne/bootstrap-olcne.sh --secret-manager-type file --olcne-node-cert-path /etc/olcne/configs/certificates/production/node.cert --olcne-ca-path /etc/olcne/configs/certificates/production/ca.cert --olcne-node-key-path /etc/olcne/configs/certificates/production/node.key --olcne-component agent
-
--
-  name: Extra configuration (optional)
-  hosts: api_servers
-  roles:
-    - extra
-
-- 
-  name: Create and configure kubernetes operator
-  hosts: masters
-  tasks:
-    - 
-      name: Creating a kube-operator user
-      user:
-        name: kube-operator
-        comment: Kube Operator
-        shell: /bin/bash
-        group: wheel
-    -
-      name: Creating a kube directory
-      file:
-        path: /home/kube-operator/.kube
-        state: directory
-        mode: '0755'
-    -
-      name: Configuring environment to kube-operator
-      lineinfile:
-        path: /home/kube-operator/.bashrc
-        line: export KUBECONFIG=$HOME/.kube/config
-    -
-      name: Copying kubernetes config file
-      command:
-        cmd: cp /etc/kubernetes/admin.conf /home/kube-operator/.kube/config
-        creates: /home/kube-operator/.kube/config
-      when: config_env == True
-    -
-      name: Setting permissions
-      file:
-        path: /home/kube-operator/.kube/config
-        owner: kube-operator
-        group: wheel
-        mode: 0644
-      when: config_env == True
+#- 
+#  name: Create and configure kubernetes operator
+#  hosts: masters
+#  tasks:
+#    - 
+#      name: Creating a kube-operator user
+#      user:
+#        name: kube-operator
+#        comment: Kube Operator
+#        shell: /bin/bash
+#        group: wheel
+#    -
+#      name: Creating a kube directory
+#      file:
+#        path: /home/kube-operator/.kube
+#        state: directory
+#        mode: '0755'
+#    -
+#      name: Configuring environment to kube-operator
+#      lineinfile:
+#        path: /home/kube-operator/.bashrc
+#        line: export KUBECONFIG=$HOME/.kube/config
+#    -
+#      name: Copying kubernetes config file
+#      command:
+#        cmd: cp /etc/kubernetes/admin.conf /home/kube-operator/.kube/config
+#        creates: /home/kube-operator/.kube/config
+#      when: config_env == True
+#    -
+#      name: Setting permissions
+#      file:
+#        path: /home/kube-operator/.kube/config
+#        owner: kube-operator
+#        group: wheel
+#        mode: 0644
+#      when: config_env == True
 ...

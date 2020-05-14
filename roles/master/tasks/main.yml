@@ -1,0 +1,27 @@
+---
+# tasks file for olcne
+
+# Apply firewall rules for Master(s)
+-
+  name: Applying firewall rules
+  firewalld:
+    port: '{{ item }}'
+    permanent: True
+    state: enabled
+  loop:
+    - 8090/tcp
+    - 10250/tcp
+    - 10255/tcp
+    - 8472/udp
+    - 6443/tcp
+    - 10251/tcp
+    - 10252/tcp
+    - 2379/tcp
+    - 2380/tcp
+
+# Reload firewall rules
+-
+  name: Reloading firewalld
+  command:
+    cmd: firewall-cmd --reload
+...

@@ -1,0 +1,175 @@
+---
+# Common tasks 
+
+# Configure SELinux
+#-
+#  name: Disable SELinux
+#  selinux:
+#    state: disabled
+
+# Configure Proxy for environment
+-
+  name: Configure Proxy for YUM
+  lineinfile:
+    path: /etc/yum.conf
+    line: "proxy={{ proxy_host }}"
+  when: use_proxy == True
+-
+  name: Configure Proxy for environment
+  blockinfile:
+    path: /etc/profile.d/sh.local
+    block: |
+      export all_proxy="{{ proxy_host }}"
+      export http_proxy="{{ proxy_host }}"
+      export https_proxy="{{ proxy_host }}"
+      export no_proxy="{{ no_proxy }}"
+    create: yes
+  when: use_proxy == True
+
+# Configure general environment
+#-
+#  name: Update all hosts
+#  yum:
+#    name: '*'
+#    state: latest
+-
+  name: Install chrony
+  dnf:
+    name: chrony
+    state: present
+-
+  name: Start chrony Service
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+
+# Configure DNF repositories and installing docker
+-
+  name: Installing yum-utils
+  dnf:
+    name: yum-utils
+    state: present
+-
+  name: Adding repository
+  command:
+    cmd: yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+-
+  name: Installing docker-ce
+  dnf:
+    name: docker-ce
+    state: present
+-
+  name: Start docker Service
+  service:
+    name: docker
+    state: started
+    enabled: yes
+
+# Configure a user to run RKE
+- 
+  name: Creating a RKE user
+  user:
+    name: rke
+    comment: RKE Operator
+    shell: /bin/bash
+    group: docker
+
+# Configure swap for Kubernetes
+-
+  name: Disable swap
+  command:
+    cmd: /usr/sbin/swapoff -a
+-
+  name: Comment swap entry from /etc/fstab
+  replace:
+    path: /etc/fstab
+    regexp: '^(\s*)([^#\n]+\s+)(\w+\s+)swap(\s+.*)$'
+    replace: '#\1\2\3swap\4'
+
+# Loading kernel modules for RKE
+-
+  name: Load kernel modules
+  modprobe:
+    name: '{{ item }}'
+    state: present
+  loop:
+    - br_netfilter
+    - ip6_udp_tunnel
+    - ip_set
+    - ip_set_hash_ip
+    - ip_set_hash_net
+    - iptable_filter
+    - iptable_nat
+    - iptable_mangle
+    - iptable_raw
+    - nf_conntrack_netlink
+    - nf_conntrack
+    - nf_conntrack_ipv4
+    - nf_defrag_ipv4
+    - nf_nat
+    - nf_nat_ipv4
+    - nf_nat_masquerade_ipv4
+    - nfnetlink
+    - udp_tunnel
+    - veth
+    - vxlan
+    - x_tables
+    - xt_addrtype
+    - xt_conntrack
+    - xt_comment
+    - xt_mark
+    - xt_multiport
+    - xt_nat
+    - xt_recent
+    - xt_set
+    - xt_statistic
+    - xt_tcpudp
+-
+  name: Add kernel modules as permanent
+  blockinfile:
+    path: /etc/modules-load.d/rke.conf
+    block: |
+      br_netfilter
+      ip6_udp_tunnel
+      ip_set
+      ip_set_hash_ip
+      ip_set_hash_net
+      iptable_filter
+      iptable_nat
+      iptable_mangle
+      iptable_raw
+      nf_conntrack_netlink
+      nf_conntrack
+      nf_conntrack_ipv4
+      nf_defrag_ipv4
+      nf_nat
+      nf_nat_ipv4
+      nf_nat_masquerade_ipv4
+      nfnetlink
+      udp_tunnel
+      veth
+      vxlan
+      x_tables
+      xt_addrtype
+      xt_conntrack
+      xt_comment
+      xt_mark
+      xt_multiport
+      xt_nat
+      xt_recent
+      xt_set
+      xt_statistic
+      xt_tcpudp
+    create: yes
+
+# Configuring sysctl 
+-
+  name: Add net.bridge.bridge-nf-call-iptables
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: '1'
+    sysctl_set: yes
+    state: present
+    reload: yes
+...
