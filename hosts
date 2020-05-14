@@ -1,0 +1,17 @@
+# OLCNE API Server
+[api_servers]
+api-server  ansible_host=api-server.inat.leao.pro.br ansible_user=root
+
+# Kubernetes Master
+[masters]
+master      ansible_host=master.inat.leao.pro.br ansible_user=root
+
+# Kubernetes Workers
+[workers]
+worker01    ansible_host=worker01.inat.leao.pro.br ansible_user=root
+worker02    ansible_host=worker02.inat.leao.pro.br ansible_user=root
+
+# Kubernetes hosts
+[kubernetes:children]
+masters
+workers
