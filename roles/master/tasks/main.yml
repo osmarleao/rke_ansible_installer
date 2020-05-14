@@ -33,8 +33,6 @@
   name: Installing RKE utility
   command:
     cmd: wget -O rke https://github.com/rancher/rke/releases/download/v1.0.8/rke_linux-amd64
-    args:
-      chdir: /tmp
 - 
   name: Making executable
   file:
