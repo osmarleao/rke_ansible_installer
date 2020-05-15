@@ -1,5 +1,5 @@
 ---
- This playbook installs RKE 2.x
+# This playbook installs RKE 2.x
 -
   name: Apply common configuration to all nodes
   hosts: all
