@@ -1,5 +1,5 @@
 ---
-# This playbook installs RKE 2.x
+ This playbook installs RKE 2.x
 -
   name: Apply common configuration to all nodes
   hosts: all
@@ -17,41 +17,4 @@
   hosts: masters
   roles:
     - master
-
-#- 
-#  name: Create and configure kubernetes operator
-#  hosts: masters
-#  tasks:
-#    - 
-#      name: Creating a kube-operator user
-#      user:
-#        name: kube-operator
-#        comment: Kube Operator
-#        shell: /bin/bash
-#        group: wheel
-#    -
-#      name: Creating a kube directory
-#      file:
-#        path: /home/kube-operator/.kube
-#        state: directory
-#        mode: '0755'
-#    -
-#      name: Configuring environment to kube-operator
-#      lineinfile:
-#        path: /home/kube-operator/.bashrc
-#        line: export KUBECONFIG=$HOME/.kube/config
-#    -
-#      name: Copying kubernetes config file
-#      command:
-#        cmd: cp /etc/kubernetes/admin.conf /home/kube-operator/.kube/config
-#        creates: /home/kube-operator/.kube/config
-#      when: config_env == True
-#    -
-#      name: Setting permissions
-#      file:
-#        path: /home/kube-operator/.kube/config
-#        owner: kube-operator
-#        group: wheel
-#        mode: 0644
-#      when: config_env == True
 ...
