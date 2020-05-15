@@ -6,8 +6,3 @@ node01      ansible_host=node01.in.leao.pro.br ansible_user=root
 [workers]
 node02      ansible_host=node02.in.leao.pro.br ansible_user=root
 node03      ansible_host=node03.in.leao.pro.br ansible_user=root
-
-# Kubernetes hosts
-[kubernetes:children]
-masters
-workers
