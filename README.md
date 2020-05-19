@@ -12,18 +12,24 @@ There is an example of `hosts` file:
     # Kubernetes Master
     [masters]
     node01      ansible_host=node01.in.leao.pro.br ansible_user=root
+    node02      ansible_host=node02.in.leao.pro.br ansible_user=root
+    node03      ansible_host=node03.in.leao.pro.br ansible_user=root
 
     # Kubernetes Workers
     [workers]
-    node02      ansible_host=node02.in.leao.pro.br ansible_user=root
-    node03      ansible_host=node03.in.leao.pro.br ansible_user=root
+    node04      ansible_host=node04.in.leao.pro.br ansible_user=root
+    node05      ansible_host=node05.in.leao.pro.br ansible_user=root
+
+    # RKE Host
+    [rke]
+    node01
 
 Note: edit `roles/common/tasks/main.yml` and uncomment the yum update lines to update your hosts in the same process of installs RKE (much slower):
 
     # Configure general environment
     -
       name: Update all hosts
-      yum:
+      dnf:
         name: '*'
         state: latest
 
@@ -34,8 +40,3 @@ The site.yml may be used to deploy a full RKE.
 Run the playbook using:
 
     ansible-playbook -i hosts site.yml
-
-### Important note
-
-To finish RKE installation, you need to run `rke config --name cluster` with rke user, than run `rke up`.
-Adjust `addon_job_timeout` inside the cluster.yml file to something like 30 or 60 to run without timeout errors. 

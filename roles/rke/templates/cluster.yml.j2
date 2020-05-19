@@ -1,0 +1,25 @@
+nodes:
+{% for host in groups.masters %}
+  - address: {{ hostvars[host]['ansible_' + iface].ipv4.address }}
+    user: rke
+    role: [controlplane, worker, etcd]
+{% endfor %}
+{% for host in groups.workers %}
+  - address: {{ hostvars[host]['ansible_' + iface].ipv4.address }}
+    user: rke
+    role: [worker]
+{% endfor %}
+
+services:
+  etcd:
+    snapshot: true
+    creation: 6h
+    retention: 24
+
+# Required for external TLS termination with
+# ingress-nginx v0.22+
+ingress:
+  provider: nginx
+  options:
+    use-forwarded-headers: "true"
+addon_job_timeout: 60

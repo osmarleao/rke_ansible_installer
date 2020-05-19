@@ -17,4 +17,10 @@
   hosts: masters
   roles:
     - master
+    
+- 
+  name: Deploy RKE cluster
+  hosts: rke
+  roles:
+    - rke
 ...

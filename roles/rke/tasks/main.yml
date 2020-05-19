@@ -1,0 +1,25 @@
+---
+# tasks file for RKE deployment
+
+# Create cluster.yml file
+-
+  name: Configure the cluster file with hosts
+  template: 
+    src: cluster.yml.j2
+    dest: /home/rke/cluster.yml
+
+- 
+  name: Run rke up command
+  command:
+    cmd: /usr/local/bin/rke up
+  become: yes
+  become_user: rke
+  args:
+    chdir: /home/rke
+
+-
+  name: Add kube configuration environment path
+  lineinfile:
+    path: /home/rke/.bashrc
+    line: export KUBECONFIG=kube_config_cluster.yml  
+...

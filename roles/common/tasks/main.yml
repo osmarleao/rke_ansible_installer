@@ -29,7 +29,7 @@
 # Configure general environment
 #-
 #  name: Update all hosts
-#  yum:
+#  dnf:
 #    name: '*'
 #    state: latest
 -
