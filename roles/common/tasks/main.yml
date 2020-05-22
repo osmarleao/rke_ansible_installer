@@ -67,12 +67,12 @@
   name: Installing containerd.io-1.2.13-3.2.el7
   command:
     cmd: dnf -y install https://download.docker.com/linux/centos/7/x86_64/stable/Packages/containerd.io-1.2.13-3.2.el7.x86_64.rpm
-    warn: false
+    warn: False
 -
   name: Installing docker-ce-18.09.2-3.el7
   command:
     cmd: dnf -y --nobest install docker-ce-18.09.2-3.el7 docker-ce-cli-18.09.2-3.el7
-    warn: false
+    warn: False
 -
   name: Start docker Service
   service:
@@ -140,6 +140,46 @@
       xt_statistic
       xt_tcpudp
     create: yes
+
+# Load kernel modules
+- 
+  name: Load kernel modules
+  modprobe: 
+    name: '{{ item }}'
+    state: present
+  ignore_errors: yes
+  loop:
+    - br_netfilter
+    - ip6_udp_tunnel
+    - ip_set
+    - ip_set_hash_ip
+    - ip_set_hash_net
+    - iptable_filter
+    - iptable_nat
+    - iptable_mangle
+    - iptable_raw
+    - nf_conntrack_netlink
+    - nf_conntrack
+    - nf_conntrack_ipv4
+    - nf_defrag_ipv4
+    - nf_nat
+    - nf_nat_ipv4
+    - nf_nat_masquerade_ipv4
+    - nfnetlink
+    - udp_tunnel
+    - veth
+    - vxlan
+    - x_tables
+    - xt_addrtype
+    - xt_conntrack
+    - xt_comment
+    - xt_mark
+    - xt_multiport
+    - xt_nat
+    - xt_recent
+    - xt_set
+    - xt_statistic
+    - xt_tcpudp
 
 # Configuring sysctl 
 -
