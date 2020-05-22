@@ -1,11 +1,11 @@
 # Kubernetes Master
 [masters]
 node01      ansible_host=node01.in.leao.pro.br ansible_user=root
+node02      ansible_host=node02.in.leao.pro.br ansible_user=root
+node03      ansible_host=node03.in.leao.pro.br ansible_user=root
 
 # Kubernetes Workers
 [workers]
-node02      ansible_host=node02.in.leao.pro.br ansible_user=root
-node03      ansible_host=node03.in.leao.pro.br ansible_user=root
 
 # RKE Host
 [rke]

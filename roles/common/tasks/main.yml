@@ -2,10 +2,18 @@
 # Common tasks 
 
 # Configure SELinux
-#-
-#  name: Disable SELinux
-#  selinux:
-#    state: disabled
+-
+  name: Disable SELinux
+  selinux:
+    state: disabled
+
+# Configure firewalld
+-
+  name: Disable Firewalld
+  service:
+    name: firewalld
+    state: stopped
+    enabled: no
 
 # Configure Proxy for environment
 -

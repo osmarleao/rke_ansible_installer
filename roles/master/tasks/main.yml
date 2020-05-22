@@ -2,31 +2,31 @@
 # tasks file for RKE worker
 
 # Apply firewall rules for Workers
--
-  name: Set firewall rules
-  firewalld:
-    port: '{{ item }}'
-    permanent: True
-    state: enabled
-  loop:
-    - 80/tcp
-    - 443/tcp
-    - 2376/tcp
-    - 2379/tcp
-    - 2380/tcp
-    - 6443/tcp
-    - 8472/udp
-    - 9099/tcp
-    - 10250/tcp
-    - 10254/tcp
-    - 30000-32767/udp
-    - 30000-32767/tcp
+#-
+#  name: Set firewall rules
+#  firewalld:
+#    port: '{{ item }}'
+#    permanent: True
+#    state: enabled
+#  loop:
+#    - 80/tcp
+#    - 443/tcp
+#    - 2376/tcp
+#    - 2379/tcp
+#    - 2380/tcp
+#    - 6443/tcp
+#    - 8472/udp
+#    - 9099/tcp
+#    - 10250/tcp
+#    - 10254/tcp
+#    - 30000-32767/udp
+#    - 30000-32767/tcp
 
 # Reload firewall rules
--
-  name: Reloading firewalld
-  command:
-    cmd: firewall-cmd --reload
+#-
+#  name: Reloading firewalld
+#  command:
+#    cmd: firewall-cmd --reload
 
 # Install RKE utility 
 - 
