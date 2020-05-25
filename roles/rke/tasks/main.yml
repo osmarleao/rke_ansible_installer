@@ -16,6 +16,7 @@
   become_user: rke
   args:
     chdir: /home/rke
+  when: install_cluster == True
 
 -
   name: Add kube configuration environment path

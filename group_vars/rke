@@ -1,4 +1,7 @@
 ---
+# Verificação de instalação do Cluster
+install_cluster: False
+
 # Ethernet interface on which the load balancer should listen
 # Defaults to the first interface. Change this to:
 #

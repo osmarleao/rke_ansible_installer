@@ -40,3 +40,5 @@ The site.yml may be used to deploy a full RKE.
 Run the playbook using:
 
     ansible-playbook -i hosts site.yml
+
+Note: to deploy RKE automaticaly, first edit `group_vers/rke` and set `install_cluster` to `True`. 
